@@ -37,3 +37,12 @@ User.create(
   email: 'jane@example.com',
   password: 'password456'
 )
+
+# Create products
+Product.create(name: 'Product 1', price: 100, status: 'active')
+Product.create(name: 'Product 2', price: 200, status: 'active')
+Product.create(name: 'Product 3', price: 300, status: 'inactive')
+
+# Create product queues
+ApprovalQueue.create(product: Product.first, action: 'approve')
+ApprovalQueue.create(product: Product.second, action: 'reject')

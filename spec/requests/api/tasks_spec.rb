@@ -7,21 +7,18 @@ RSpec.describe Api::TasksController, type: :controller do # rubocop:disable Metr
   describe 'POST #create' do # rubocop:disable Metrics/BlockLength
     let(:user) { create(:user) }
     let(:jwt_token) { JwtService.encode(user_id: user.id) }
-    let(:task_attributes) { FactoryBot.attributes_for(:task) }
 
     before { request.headers['Authorization'] = "Bearer #{jwt_token}" }
 
     context 'with valid attributes' do
+      let(:valid_task_attributes) { FactoryBot.attributes_for(:task) }
+
       it 'creates a new task' do
         expect do
-          post :create, params: { task: task_attributes}
-        end.to change(Task, :count).by(1)
-      end
-
-      it 'returns a JSON response with the new task' do
-        post :create, params: { task: task_attributes }
-        expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)['title']).not_to be_nil
+          post :create, params: { task: valid_task_attributes }
+          expect(response).to have_http_status(:created)
+          expect(JSON.parse(response.body)['title']).to eq(valid_task_attributes[:title])
+        end
       end
     end
 

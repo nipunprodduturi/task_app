@@ -2,8 +2,8 @@
 
 class Task < ApplicationRecord # rubocop:disable Style/Documentation
   belongs_to :user
-  has_many :assignments
-  enum status: { pending: 'Pending', in_progress: 'InProgress', completed: 'Completed' }
+
+  enum status: { pending: 'Pending', in_progress: 'In Progress', completed: 'Completed' }
   enum priority: { low: 'Low', medium: 'Medium', high: 'High' }
 
   validates :title, presence: true

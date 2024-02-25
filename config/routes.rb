@@ -1,37 +1,41 @@
-Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+# frozen_string_literal: true
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
+  get 'up' => 'rails/health#show', as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  post 'authenticate', to: 'authentication#authenticate'
 
-  Rails.application.routes.draw do
-
-    post 'authenticate', to: 'authentication#authenticate'
-
-    namespace :api do
-      resources :tasks do
-        member do
-          post :assign
-          put :progress
-        end
-        collection do
-          get :overdue
-          get :status
-          get :completed
-          get :statistics
-          get :priority
-        end
+  namespace :api do
+    resources :tasks do
+      member do
+        post :assign
+        put :progress
       end
-
-      resources :users do
-        member do
-          get :tasks
-        end
+      collection do
+        get :overdue
+        get :status
+        get :completed
+        get :statistics
+        get :priority
       end
     end
+
+    resources :users do
+      member do
+        get :tasks
+      end
+    end
+  end
+
+  namespace :api do
+    resources :products, only: %i[index create update destroy] do
+      collection do
+        get :search
+      end
+    end
+
+    get 'products/approval-queue', to: 'approval_queues#index', as: 'approval_queue'
+    put 'products/approval-queue/:id/approve', to: 'approval_queues#approve', as: 'approve_product'
+    put 'products/approval-queue/:id/reject', to: 'approval_queues#reject', as: 'reject_product'
   end
 end

@@ -5,10 +5,11 @@ module Api
   # It also allows users to view tasks that are overdue, tasks with a specific status, and
   # tasks that were completed within a specific date range. It also provides statistics about the tasks.
   class TasksController < ApplicationController
+    before_action :authenticate_request
     before_action :set_task, only: %i[update destroy assign progress]
 
     def create
-      @task = Task.new(task_params)
+      @task = Task.new(task_params.merge!(user_id: @current_user.id))
 
       if @task.save
         render json: @task, status: :created
@@ -90,11 +91,12 @@ module Api
     def set_task
       @task = Task.find(params[:id])
     rescue ActiveRecord::RecordNotFound
+      Rails.logger.error("Task not found: #{params[:id]}")
       render json: { error: 'Task not found' }, status: :not_found
     end
 
     def task_params
-      params.require(:task).permit(:title, :description, :due_date, :status, :progress, :priority)
+      params.require(:task).permit(:title, :description, :due_date, :status, :progress, :priority, :user_id)
     end
 
     def render_errors(record)
