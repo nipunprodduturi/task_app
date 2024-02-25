@@ -4,7 +4,6 @@
 class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request
 
-  # The authenticate method is called when a user logs in. It checks if the user exists and if the password is correct. If the user is authenticated, a JWT token is returned.
   def authenticate
     user = User.find_by(email: params[:email])
     if user&.authenticate(params[:password])

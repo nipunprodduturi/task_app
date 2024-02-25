@@ -7,8 +7,8 @@ RSpec.describe Api::ProductsController, type: :controller do # rubocop:disable M
 
   before { request.headers['Authorization'] = "Bearer #{JwtService.encode(user_id: user.id)}" }
   before do
-    Product.create([{ name: 'Product 1', price: 100, status: 'active'},
-                    { name: 'Product 2', price: 200, status: 'inactive', created_at: 1.day.ago},
+    Product.create([{ name: 'Product 1', price: 100, status: 'active' },
+                    { name: 'Product 2', price: 200, status: 'inactive', created_at: 1.day.ago },
                     { name: 'Product 3', price: 300, status: 'active', created_at: 2.days.ago }])
   end
 
@@ -25,7 +25,7 @@ RSpec.describe Api::ProductsController, type: :controller do # rubocop:disable M
     end
   end
 
-  describe 'GET #search' do
+  describe 'GET #search' do # rubocop:disable Metrics/BlockLength
     it 'returns a success response' do
       get :search
       expect(response).to be_successful

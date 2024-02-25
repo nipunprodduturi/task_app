@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  # Product controller to handle product related actions
+  # This Product controller to handle product related actions
   class ProductsController < ApplicationController
     before_action :authenticate_request
     before_action :set_product, only: %i[update destroy]

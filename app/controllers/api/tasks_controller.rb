@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  # This controller is responsible for managing tasks. It allows users to create, update, delete, and assign tasks.
-  # It also allows users to view tasks that are overdue, tasks with a specific status, and
-  # tasks that were completed within a specific date range. It also provides statistics about the tasks.
+  # This controller is responsible for managing tasks.
   class TasksController < ApplicationController
     before_action :authenticate_request
     before_action :set_task, only: %i[update destroy assign progress]

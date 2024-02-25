@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 # spec/models/task_spec.rb
 
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-
   subject { create(:task) }
 
   describe 'associations' do

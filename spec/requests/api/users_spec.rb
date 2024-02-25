@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :controller do
@@ -43,7 +45,6 @@ RSpec.describe Api::UsersController, type: :controller do
     context 'when user is not authenticated' do
       it 'returns a JSON response with an error message' do
         expect do
-          
         end
       end
     end
